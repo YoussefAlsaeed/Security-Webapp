@@ -5,6 +5,8 @@ import com.secapp.springjwt.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -63,4 +65,12 @@ public class UserService {
 	    }
 	    return null;
 	  }
+	  
+	  public List<TodoList> getUserLists(Long userId) {
+		    Optional<User> userOptional = userRepository.findById(userId);
+		    if (userOptional.isPresent()) {
+		      return listRepository.findByUser(userOptional.get());
+		    }
+		    return Collections.emptyList();
+		  }
 }

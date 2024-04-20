@@ -6,10 +6,12 @@ import com.secapp.springjwt.payload.request.CreateListRequest;
 import com.secapp.springjwt.payload.request.CreateTaskRequest;
 import com.secapp.springjwt.payload.request.DeleteListRequest;
 import com.secapp.springjwt.payload.request.DeleteTaskRequest;
+import com.secapp.springjwt.payload.request.GetUserListsRequests;
 import com.secapp.springjwt.payload.request.UpdateTaskStatusRequest;
 import com.secapp.springjwt.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +74,18 @@ public class UserController {
         } else {
             return ResponseEntity.badRequest().body("Failed to update task status. Task not found.");
         }
+    }
+    
+    @SecurityRequirement(name="BearerAuth")
+    @GetMapping("/lists")
+    public ResponseEntity<?> getUserLists(@RequestBody GetUserListsRequests requestBody) {
+      Long userId = requestBody.getUserId();
+      if (userId != null) {
+        List<TodoList> userLists = userService.getUserLists(userId);
+        return ResponseEntity.ok(userLists);
+      } else {
+        return ResponseEntity.badRequest().body("Invalid request body.");
+      }
     }
 
 }
