@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.secapp.springjwt.models.User;
 import com.secapp.springjwt.payload.request.AssignAdminRequest;
-//import com.secapp.springjwt.payload.request.AssignAdminRequest;
 import com.secapp.springjwt.services.AdminService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -36,14 +35,14 @@ public class AdminController {
 
 	@GetMapping("/board")
 	@PreAuthorize("hasRole('ADMIN')")
-//	@SecurityRequirement(name="BearerAuth")
+	@SecurityRequirement(name="BearerAuth")
 	public String adminAccess() {
 		return "Admin Board.";
 	}
 
 	@GetMapping("/getUsers")
 	@PreAuthorize("hasRole('ADMIN')")
-//	@SecurityRequirement(name="BearerAuth")
+	@SecurityRequirement(name="BearerAuth")
 	public List<User> getAllUsers() {
 		return adminService.getAllUsers();
 	}
@@ -61,23 +60,4 @@ public class AdminController {
 	    }
 	 }
 
-
-
-//  @GetMapping("/user")
-//  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-//  public String userAccess() {
-//    return "User Content.";
-//  }
-//
-//  @GetMapping("/mod")
-//  @PreAuthorize("hasRole('MODERATOR')")
-//  public String moderatorAccess() {
-//    return "Moderator Board.";
-//  }
-//
-//  @GetMapping("/admin")
-//  @PreAuthorize("hasRole('ADMIN')")
-//  public String adminAccess() {
-//    return "Admin Board.";
-//  }
 }

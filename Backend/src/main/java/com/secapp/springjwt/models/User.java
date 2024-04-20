@@ -35,7 +35,7 @@ public class User {
   private String password;
   
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<List> lists = new HashSet<>();
+  private Set<TodoList> lists = new HashSet<>();
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(  name = "user_roles", 
@@ -93,11 +93,11 @@ public class User {
     this.roles = roles;
   }
   
-  public Set<List> getLists() {
+  public Set<TodoList> getLists() {
 	  return lists;
   }
 
-  public void setLists(Set<List> lists) {
+  public void setLists(Set<TodoList> lists) {
 	  this.lists = lists;
   }
 }

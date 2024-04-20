@@ -3,6 +3,8 @@ package com.secapp.springjwt.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -20,8 +22,6 @@ public class Task {
 	@Size(max = 100)
 	private String title;
 
-	@Size(max = 500)
-	private String description;
 
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
@@ -29,16 +29,16 @@ public class Task {
 
 	@ManyToOne
 	@JoinColumn(name = "list_id", nullable = false)
-	private List list;
+	@JsonIgnore
+	private TodoList list;
 
 	public Task() {
 	}
 
-	public Task(Long id, @NotBlank @Size(max = 100) String title, @Size(max = 500) String description,
-			ETaskStatus status, List list) {
+	public Task(Long id, @NotBlank @Size(max = 100) String title,
+			ETaskStatus status, TodoList list) {
 		this.id = id;
 		this.title = title;
-		this.description = description;
 		this.status = status;
 		this.list = list;
 	}
@@ -59,13 +59,6 @@ public class Task {
 		this.title = title;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 
 	public ETaskStatus getStatus() {
 		return status;
@@ -75,11 +68,11 @@ public class Task {
 		this.status = status;
 	}
 
-	public List getList() {
+	public TodoList getList() {
 		return list;
 	}
 
-	public void setList(List list) {
+	public void setList(TodoList list) {
 		this.list = list;
 	}
 
