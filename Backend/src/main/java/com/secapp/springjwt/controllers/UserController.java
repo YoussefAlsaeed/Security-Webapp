@@ -78,14 +78,14 @@ public class UserController {
     
     @SecurityRequirement(name="BearerAuth")
     @GetMapping("/lists")
-    public ResponseEntity<?> getUserLists(@RequestBody GetUserListsRequests requestBody) {
-      Long userId = requestBody.getUserId();
-      if (userId != null) {
-        List<TodoList> userLists = userService.getUserLists(userId);
-        return ResponseEntity.ok(userLists);
-      } else {
-        return ResponseEntity.badRequest().body("Invalid request body.");
-      }
+    public ResponseEntity<?> getUserLists(@RequestParam("userId") Long userId) {
+        if (userId != null) {
+            List<TodoList> userLists = userService.getUserLists(userId);
+            return ResponseEntity.ok(userLists);
+        } else {
+            return ResponseEntity.badRequest().body("Invalid user ID.");
+        }
     }
+
 
 }

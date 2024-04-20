@@ -33,12 +33,12 @@ class UserService {
   // }
   getUserLists(userId) {
     return axios.request({
-      url: API_URL + 'user/lists',
+      url: `${API_URL}user/lists?userId=${userId}`,
       method: 'GET',
-      headers: authHeader(),
-      data: { userId }
+      headers: authHeader()
     });
   }
+  
   createList(userId, title) {
     return axios.post(API_URL + 'user/createList', { userId, title }, { headers: authHeader() });
   }
