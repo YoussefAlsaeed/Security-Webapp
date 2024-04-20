@@ -3,6 +3,8 @@ package com.secapp.springjwt.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -31,6 +33,9 @@ public class User {
   @NotBlank
   @Size(max = 120)
   private String password;
+  
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<List> lists = new HashSet<>();
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(  name = "user_roles", 
@@ -70,7 +75,8 @@ public class User {
   public void setEmail(String email) {
     this.email = email;
   }
-
+  
+  @JsonIgnore
   public String getPassword() {
     return password;
   }
@@ -86,4 +92,13 @@ public class User {
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
   }
+
+  public Set<List> getLists() {
+	  return lists;
+  }
+	
+  public void setLists(Set<List> lists) {
+	  this.lists = lists;
+  }
+  
 }
