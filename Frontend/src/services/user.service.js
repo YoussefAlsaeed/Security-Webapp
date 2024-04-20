@@ -25,5 +25,33 @@ class UserService {
   getUsersList() {
     return axios.get(API_URL + 'admin/getUsers', { headers: authHeader() });
   }
+  // getUserLists(userId) {
+  //   return axios.get(API_URL + 'user/lists', { 
+  //     headers: authHeader(),
+  //     data:{userId}
+  //   });
+  // }
+  getUserLists(userId) {
+    return axios.request({
+      url: API_URL + 'user/lists',
+      method: 'GET',
+      headers: authHeader(),
+      data: { userId }
+    });
+  }
+  createList(userId, title) {
+    return axios.post(API_URL + 'user/createList', { userId, title }, { headers: authHeader() });
+  }
+  createTask(listId, title, status) {
+    return axios.post(API_URL + 'user/createTask', { listId, title, status }, { headers: authHeader() });
+  }
+deleteTask(taskId) {
+  return axios.delete(API_URL + 'user/deleteTask', { 
+    headers: authHeader(),
+    data: { taskId }
+  });
+}
+
+  
 }
 export default new UserService();

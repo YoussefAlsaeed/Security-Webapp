@@ -4,7 +4,7 @@
       <h2>All To-Do Lists</h2>
     </div>
     <div class="card-body">
-      <ul v-if="toDoLists.length">
+      <ul v-if="toDoLists && toDoLists.length">
         <li
           v-for="toDoList in toDoLists"
           :key="toDoList.id"
@@ -30,9 +30,20 @@
   </div>
 </template>
 
+
 <script>
+import UserService from '@/services/user.service'; // adjust the path as needed
+
 export default {
   name: 'ToDoLists',
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    userId() {
+      return this.currentUser.id; 
+    }
+  },
   data() {
     return {
       newToDoList: {
@@ -42,14 +53,19 @@ export default {
     };
   },
   methods: {
-    createToDoList() {
-      const newId = Date.now();
-      this.toDoLists.push({ id: newId, title: this.newToDoList.title, items: [] });
+    async createToDoList() {
+      const response = await UserService.createList(this.userId, this.newToDoList.title);
+      this.toDoLists.push(response.data);
       this.newToDoList.title = '';
     },
   },
+  async created() {
+    const response = await UserService.getUserLists(this.userId);
+    this.toDoLists = response.data;
+  },
 };
 </script>
+
 <style scoped>
 .card {
   height: 1000px;
