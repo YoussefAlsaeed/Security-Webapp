@@ -13,6 +13,7 @@
           <router-link :to="{ name: 'ToDoList', params: { id: toDoList.id }}">
             {{ toDoList.title }}
           </router-link>
+          <button @click="deleteList(toDoList.id)" class="delete-button">Delete</button>
         </li>
       </ul>
       <div v-else class="no-lists-message">
@@ -29,7 +30,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 import UserService from '@/services/user.service'; // adjust the path as needed
@@ -57,6 +57,10 @@ export default {
       const response = await UserService.createList(this.userId, this.newToDoList.title);
       this.toDoLists.push(response.data);
       this.newToDoList.title = '';
+    },
+    async deleteList(listId) {
+      await UserService.deleteList(listId);
+      this.toDoLists = this.toDoLists.filter(list => list.id !== listId);
     },
   },
   async created() {
@@ -121,4 +125,14 @@ export default {
 }
 .list-title-input {
   flex: 1;
+}
+.delete-button {
+  background: none;
+  border: none;
+  color: #f00; /* red color for the delete button */
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  color: #c00; /* darker red color when hovered */
 }

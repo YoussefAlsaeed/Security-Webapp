@@ -2,7 +2,6 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:8080/api/';
-
 class UserService {
   getPublicContent() {
     return axios.get(API_URL + 'all');
@@ -38,20 +37,24 @@ class UserService {
       headers: authHeader()
     });
   }
-  
+
   createList(userId, title) {
     return axios.post(API_URL + 'user/createList', { userId, title }, { headers: authHeader() });
   }
   createTask(listId, title, status) {
     return axios.post(API_URL + 'user/createTask', { listId, title, status }, { headers: authHeader() });
   }
-deleteTask(taskId) {
-  return axios.delete(API_URL + 'user/deleteTask', { 
-    headers: authHeader(),
-    data: { taskId }
-  });
-}
-
-  
+  deleteTask(taskId) {
+    return axios.delete(API_URL + 'user/deleteTask', {
+      headers: authHeader(),
+      data: { taskId }
+    });
+  }
+  deleteList(listId) {
+    return axios.delete(API_URL + 'user/deleteList', {
+      headers: authHeader(),
+      data: { listId }
+    });
+  }
 }
 export default new UserService();

@@ -71,7 +71,7 @@ export default {
     },
     className(task) {
       return task.completed ? 'toggle toggle-completed' : 'toggle';
-    }
+    },
   },
 };
 </script>
