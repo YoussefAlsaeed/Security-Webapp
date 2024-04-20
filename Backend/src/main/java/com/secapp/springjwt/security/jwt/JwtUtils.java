@@ -41,12 +41,8 @@ public class JwtUtils {
   }
   
   private Key key() {
-      SecretKey secretKey = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256);
-
-      String base64EncodedSecretKey = Base64.getEncoder().encodeToString(secretKey.getEncoded());
-
-      return Keys.hmacShaKeyFor(Decoders.BASE64.decode(base64EncodedSecretKey));
-  }
+	    return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+	  }
 
   public String getUserNameFromJwtToken(String token) {
     return Jwts.parserBuilder().setSigningKey(key()).build()

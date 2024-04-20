@@ -46,10 +46,6 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
     return new AuthTokenFilter();
   }
 
-//  @Override
-//  public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-//    authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//  }
   
   @Bean
   public DaoAuthenticationProvider authenticationProvider() {
@@ -60,12 +56,6 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
    
       return authProvider;
   }
-
-//  @Bean
-//  @Override
-//  public AuthenticationManager authenticationManagerBean() throws Exception {
-//    return super.authenticationManagerBean();
-//  }
   
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -110,7 +100,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
   public CorsConfigurationSource corsConfigurationSource() {
       CorsConfiguration corsConfiguration = new CorsConfiguration();
       corsConfiguration.setAllowedOrigins(List.of("http://localhost:8081","http://localhost:8090"));
-      corsConfiguration.setAllowedMethods(List.of("GET", "POST"));
+      corsConfiguration.setAllowedMethods(List.of("GET", "POST","PUT"));
       corsConfiguration.setAllowCredentials(true);
       corsConfiguration.setAllowedHeaders(List.of("*"));
       corsConfiguration.setMaxAge(3600L);
