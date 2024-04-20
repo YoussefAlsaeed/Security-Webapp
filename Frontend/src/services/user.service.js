@@ -3,16 +3,10 @@ import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:8080/api/';
 class UserService {
-  getPublicContent() {
-    return axios.get(API_URL + 'all');
-  }
+
 
   getUserBoard() {
     return axios.get(API_URL + 'user', { headers: authHeader() });
-  }
-
-  getModeratorBoard() {
-    return axios.get(API_URL + 'mod', { headers: authHeader() });
   }
 
   getAdminBoard() {
@@ -24,12 +18,7 @@ class UserService {
   getUsersList() {
     return axios.get(API_URL + 'admin/getUsers', { headers: authHeader() });
   }
-  // getUserLists(userId) {
-  //   return axios.get(API_URL + 'user/lists', { 
-  //     headers: authHeader(),
-  //     data:{userId}
-  //   });
-  // }
+
   getUserLists(userId) {
     return axios.request({
       url: `${API_URL}user/lists?userId=${userId}`,

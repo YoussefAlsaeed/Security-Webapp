@@ -1,66 +1,54 @@
 <template>
-  <div class="col-md-12">
+  <div class="register-container">
     <div class="card card-container">
       <img
         id="profile-img"
         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+        alt="Profile Image"
         class="profile-img-card"
       />
-      <form name="form" @submit.prevent="handleRegister">
+      <form name="form" @submit.prevent="handleRegister" class="register-form">
         <div v-if="!successful">
           <div class="form-group">
             <label for="username">Username</label>
             <input
-              v-model="user.username"
-              v-validate="'required|min:3|max:20'"
+              v-model.trim="user.username"
               type="text"
               class="form-control"
-              name="username"
+              placeholder="Enter your username"
+              required
             />
-            <div
-              v-if="submitted && errors.has('username')"
-              class="alert-danger"
-            >{{errors.first('username')}}</div>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
             <input
-              v-model="user.email"
-              v-validate="'required|email|max:50'"
+              v-model.trim="user.email"
               type="email"
               class="form-control"
-              name="email"
+              placeholder="Enter your email"
+              required
             />
-            <div
-              v-if="submitted && errors.has('email')"
-              class="alert-danger"
-            >{{errors.first('email')}}</div>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
             <input
-              v-model="user.password"
-              v-validate="'required|min:6|max:40'"
+              v-model.trim="user.password"
               type="password"
               class="form-control"
-              name="password"
+              placeholder="Enter your password"
+              required
             />
-            <div
-              v-if="submitted && errors.has('password')"
-              class="alert-danger"
-            >{{errors.first('password')}}</div>
           </div>
           <div class="form-group">
             <button class="btn btn-primary btn-block">Sign Up</button>
           </div>
         </div>
       </form>
-
       <div
         v-if="message"
         class="alert"
         :class="successful ? 'alert-success' : 'alert-danger'"
-      >{{message}}</div>
+      >{{ message }}</div>
     </div>
   </div>
 </template>
@@ -115,9 +103,11 @@ export default {
 </script>
 
 <style scoped>
-label {
-  display: block;
-  margin-top: 10px;
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .card-container.card {
@@ -130,11 +120,7 @@ label {
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
   margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
   border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -143,8 +129,49 @@ label {
   height: 96px;
   margin: 0 auto 10px;
   display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
   border-radius: 50%;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.alert {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
 }
 </style>

@@ -1,26 +1,21 @@
 <template>
-  <div class="container">
-    <header class="jumbotron">
-      <h3>
+  <div class="profile-container">
+    <header class="profile-header">
+      <h3 class="profile-title">
         <strong>{{currentUser.username}}</strong> Profile
       </h3>
     </header>
-    <p>
-      <strong>Token:</strong>
-      {{currentUser.accessToken}}
-    </p>
-    <p>
-      <strong>Id:</strong>
-      {{currentUser.id}}
-    </p>
-    <p>
-      <strong>Email:</strong>
-      {{currentUser.email}}
-    </p>
-    <strong>Authorities:</strong>
-    <ul>
-      <li v-for="(role,index) in currentUser.roles" :key="index">{{role}}</li>
-    </ul>
+    <div class="profile-details">
+      <p class="profile-email">
+        <strong>Email:</strong> {{currentUser.email}}
+      </p>
+      <div class="profile-authorities">
+        <strong>Your role:</strong>
+        <ul>
+          <li v-for="(role, index) in currentUser.roles" :key="index" class="profile-role">{{role}}</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -39,3 +34,48 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.profile-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-title {
+  font-size: 24px;
+  color: #333;
+}
+
+.profile-details {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.profile-email {
+  margin-bottom: 10px;
+}
+
+.profile-authorities {
+  margin-top: 20px;
+}
+
+.profile-authorities ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.profile-role {
+  margin-bottom: 5px;
+  color: #666;
+}
+</style>

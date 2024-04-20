@@ -2,25 +2,24 @@
   <div class="container">
     <div class="task">
       <div class="title">
-        <h1> To Do List</h1>
+        <h1>To Do List</h1>
       </div>
       <div class="form">
         <input type="text" placeholder="New Task" v-model="newTask" @keyup.enter="addTask" />
         <button @click="addTask"><i class="fas fa-plus"></i></button>
       </div>
       <div class="taskItems">
-      <ul>
-        <li v-for="(task, index) in tasks" :key="task.id">
-          <button @click.self="completeTask(task)" :class="className(task)">
-            <i class="far fa-circle"></i> {{ task.title }}
-          </button> 
-          <button @click="removeTask(index)" class="delete-button"><i class="far fa-trash-alt"></i></button>
-        </li>
-      </ul>
-    </div>
-      <div class="clearBtns">
-        <button @click="clearCompleted">Clear completed</button>
-        <button @click="clearAll">Clear all</button>
+        <ul>
+          <li v-for="(task, index) in tasks" :key="task.id">
+            <div class="task-content">
+              <!-- <button @click.self="completeTask(task)" :class="className(task)"> -->
+                <i class="far fa-circle"></i> {{ task.title }}
+              <!-- </button> -->
+
+              <button @click="deleteTask(task.id)" class="delete-button">  <i class="far fa-trash-alt"></i>Delete</button>
+            </div>
+          </li>
+        </ul>
       </div>
       <div class="pendingTasks">
         <span>Pending Tasks: {{ incomplete }}</span>
@@ -29,8 +28,9 @@
   </div>
 </template>
 
+
 <script>
-import UserService from '@/services/user.service'; // adjust the path as needed
+import UserService from '@/services/user.service'; 
 
 export default {
   name: 'Task',
@@ -38,7 +38,7 @@ export default {
     return {
       tasks: [],
       newTask: "",
-      listId: this.$route.params.id, // get the list ID from the URL
+      listId: this.$route.params.id, 
     };
   },
   computed: {
@@ -57,11 +57,13 @@ export default {
     completeTask(task) {
       task.completed = !task.completed;
     },
-     async removeTask(index) {
-      const task = this.tasks[index];
-      console.log(task.title+task.id);
-      await UserService.deleteTask(task.id);
-      this.tasks.splice(index, 1);
+    async deleteTask(taskId) {
+      try {
+        await UserService.deleteTask(taskId);
+        this.tasks = this.tasks.filter(task => task.id !== taskId);
+      } catch (error) {
+        console.error("Error deleting task:", error);
+      }
     },
     clearCompleted() {
       this.tasks = this.tasks.filter(task => !task.completed);
@@ -73,35 +75,48 @@ export default {
       return task.completed ? 'toggle toggle-completed' : 'toggle';
     },
   },
+  created() {
+    if (this.$route.params.tasks !== undefined) {
+      this.tasks = this.$route.params.tasks;
+    }
+  }
 };
 </script>
 
 <style>
-/* general */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+.taskItems li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 0 20px;
+}
+
+
 body {
   font: 15px/1.4 "Poppins", sans-serif;
   background: #4d5050;
   color: #333;
 }
+
 .delete-button {
   background: none;
   border: none;
-  color: #f00; /* red color for the delete button */
+  color: #f00;
   cursor: pointer;
 }
 
 .delete-button:hover {
-  color: #c00; /* darker red color when hovered */
+  color: #c00;
 }
+
 .container {
   max-width: 480px;
-  margin: 75px auto;
   padding: 0 15px;
 }
 
@@ -157,7 +172,6 @@ ul {
   padding: 0;
 }
 
-/* task */
 .task {
   background: #fff;
   border-radius: 25px;
@@ -185,16 +199,19 @@ ul {
   right: 20px;
   transform: translateY(-50%);
 }
+
 .delete-button {
   background: none;
   border: none;
-  color: #f00; /* red color for the delete button */
+  color: #f00;
+  margin-left: 150px;
   cursor: pointer;
 }
 
 .delete-button:hover {
-  color: #c00; /* darker red color when hovered */
+  color: #c00;
 }
+
 .clearBtns {
   display: flex;
   justify-content: space-between;
@@ -219,7 +236,6 @@ ul {
   padding: 0 6px;
 }
 
-/* task items */
 .taskItems {
   padding: 0 10px;
 }
@@ -244,12 +260,7 @@ ul {
   font-size: 14px;
 }
 
-.toggle {
-  /* Add your styles for non-completed tasks here */
-}
-
 .toggle-completed {
   text-decoration: line-through;
-  /* Add your styles for completed tasks here */
 }
 </style>

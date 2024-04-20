@@ -10,7 +10,7 @@
           :key="toDoList.id"
           class="list-item"
         >
-          <router-link :to="{ name: 'ToDoList', params: { id: toDoList.id }}">
+        <router-link :to="{ name: 'ToDoList', params: { id: toDoList.id, tasks: toDoList.tasks } }">
             {{ toDoList.title }}
           </router-link>
           <button @click="deleteList(toDoList.id)" class="delete-button">Delete</button>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import UserService from '@/services/user.service'; // adjust the path as needed
+import UserService from '@/services/user.service'; 
 
 export default {
   name: 'ToDoLists',
@@ -129,10 +129,10 @@ export default {
 .delete-button {
   background: none;
   border: none;
-  color: #f00; /* red color for the delete button */
+  color: #f00; 
   cursor: pointer;
 }
 
 .delete-button:hover {
-  color: #c00; /* darker red color when hovered */
+  color: #c00; 
 }
