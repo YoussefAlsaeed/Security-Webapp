@@ -8,7 +8,6 @@
         <tr>
           <th scope="col">Username</th>
           <th scope="col">Email</th>
-          <th scope="col">Role</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
@@ -16,7 +15,6 @@
         <tr v-for="user in users" :key="user.id">
           <td class="text-center">{{ user.username }}</td>
           <td class="text-center">{{ user.email }}</td>
-          <td class="text-center">{{ user.role }}</td>
           <td class="text-center">
             <button v-if="user.role !== 'admin'" class="btn btn-sm btn-pink btn-block" @click="makeAdmin(user)">Make Admin</button>
           </td>
@@ -42,7 +40,7 @@ export default {
   },
   methods: {
     makeAdmin(user) {
-      UserService.makeUserAdmin(user.id)
+      UserService.assignAdminRole(user.id)
         .then(() => {
           user.role = 'admin';
           alert('User role updated successfully');
@@ -52,19 +50,13 @@ export default {
         });
     },
     fetchUsers() {
-      UserService.getAdminBoard().then(
-        response => {
+      UserService.getUsersList()
+        .then(response => {
           this.users = response.data;
-        },
-        error => {
-          this.users = [];
-          console.error(
-            (error.response && error.response.data && error.response.data.message) ||
-            error.message ||
-            error.toString()
-          ); // eslint-disable-line no-console
-        }
-      );
+        })
+        .catch(error => {
+          console.error("Failed to fetch users:", error);
+        });
     }
   },
   mounted() {
