@@ -1,5 +1,6 @@
 package com.secapp.springjwt.services;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class AdminService {
 	      Optional<Role> roleOptional = roleRepository.findByName(ERole.ROLE_ADMIN);
 	      if (roleOptional.isPresent()) {
 	        Role adminRole = roleOptional.get();
-	        Set<Role> roles = user.getRoles();
+	        Set<Role> roles = new HashSet<>();
 	        roles.add(adminRole);
 	        user.setRoles(roles);
 	        userRepository.save(user);
